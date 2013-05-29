@@ -15,6 +15,7 @@ package com.dbdeploy.mojo;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import com.dbdeploy.DbDeploy;
 import com.dbdeploy.database.DelimiterType;
 import com.dbdeploy.database.LineEnding;
@@ -34,12 +35,12 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
      */
     protected File scriptdirectory;
 
-	/**
-	 * Encoding to use for change scripts and output files.
-	 *
-	 * @parameter expression="${dbdeploy.encoding}" default-value="${project.build.sourceEncoding}"
-	 */
-	protected String encoding;
+    /**
+     * Encoding to use for change scripts and output files.
+     *
+     * @parameter expression="${dbdeploy.encoding}" default-value="${project.build.sourceEncoding}"
+     */
+    protected String encoding;
 
 
     /**
@@ -51,7 +52,7 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
     protected String driver;
 
     /**
-     * Specifies the url of the database that the deltas are to be applied to. 
+     * Specifies the url of the database that the deltas are to be applied to.
      *
      * @parameter expression="${dbdeploy.url}"
      * @required
@@ -100,14 +101,14 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
      */
     protected String delimiterType;
 
-	/**
-	 * Line ending to separate indiviual statement lines when applying directly
-	 * to the database. Can be platform (the default line ending for the current platform),
-	 * cr, crlf or lf. Default platform.
-	 *
-	 * @parameter expression="${dbdeploy.lineEnding}"
-	 */
-	protected String lineEnding;
+    /**
+     * Line ending to separate indiviual statement lines when applying directly
+     * to the database. Can be platform (the default line ending for the current platform),
+     * cr, crlf or lf. Default platform.
+     *
+     * @parameter expression="${dbdeploy.lineEnding}"
+     */
+    protected String lineEnding;
 
     /**
      * The highest numbered delta script to apply.
@@ -116,6 +117,13 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
      */
     protected Long lastChangeToApply;
 
+    /**
+     * Be quieter (omit messages about each statement)
+     *
+     * @parameter expression="${dbdeploy.quiet}"
+     */
+    protected boolean quiet;
+
     protected DbDeploy getConfiguredDbDeploy() {
         DbDeploy dbDeploy = new DbDeploy();
         dbDeploy.setScriptdirectory(scriptdirectory);
@@ -123,10 +131,11 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
         dbDeploy.setUrl(url);
         dbDeploy.setPassword(password);
         dbDeploy.setUserid(userid);
+        dbDeploy.setQuiet(quiet);
 
-	    if (encoding != null) {
-	        dbDeploy.setEncoding(encoding);
-	    }
+        if (encoding != null) {
+            dbDeploy.setEncoding(encoding);
+        }
 
         if (lastChangeToApply != null) {
             dbDeploy.setLastChangeToApply(lastChangeToApply);
@@ -144,9 +153,9 @@ public abstract class AbstractDbDeployMojo extends AbstractMojo {
             dbDeploy.setDelimiterType(DelimiterType.valueOf(delimiterType));
         }
 
-	    if (lineEnding != null) {
-		    dbDeploy.setLineEnding(LineEnding.valueOf(lineEnding));
-	    }
+        if (lineEnding != null) {
+            dbDeploy.setLineEnding(LineEnding.valueOf(lineEnding));
+        }
 
         return dbDeploy;
     }
